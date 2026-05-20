@@ -62,7 +62,18 @@ function renderDoctorsSwiper() {
     btn.addEventListener('click', (e) => {
       const doc = JSON.parse(btn.getAttribute('data-doctor'));
       const win = window.open();
-      win.document.write(`<html><head><title>${doc.name}</title><link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"><body style="font-family:Inter;padding:30px;"><h2 style="color:#5e418f">${doc.name}</h2><p>${doc.role}, опыт более 12 лет.</p><img src="${doc.photo}" width="150" style="border-radius:50%"><p>Прием по записи.</p><button onclick="window.close()">Закрыть</button></body></html>`);
+      win.document.write(`
+        <html>
+          <head><title>${doc.name}</title><link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"></head>
+          <body style="font-family:Inter;padding:30px;">
+            <h2 style="color:#5e418f">${doc.name}</h2>
+            <p>${doc.role}, опыт более 12 лет.</p>
+            <img src="${doc.photo}" width="150" style="border-radius:50%">
+            <p>Прием по записи.</p>
+            <button onclick="window.close()">Закрыть</button>
+          </body>
+        </html>
+      `);
       win.document.close();
     });
   });
@@ -212,12 +223,11 @@ if (showAppBtn && formBlock) {
   showAppBtn.onclick = () => {
     formBlock.style.display = formBlock.style.display === 'block' ? 'none' : 'block';
     
-    // ========== ОТПРАВКА СОБЫТИЯ В ЯНДЕКС МЕТРИКУ (КЛИК ПО КНОПКЕ) ==========
     if (typeof ym !== 'undefined') {
       ym(109306913, 'reachGoal', 'click_zapis');
-      console.log('✅ Цель "click_zapis" отправлена в Яндекс Метрику');
+      console.log('✅ Цель "click_zapis" отправлена');
     } else {
-      console.log('❌ Яндекс Метрика не загружена');
+      console.log('❌ Метрика не загружена');
     }
   };
 }
@@ -239,12 +249,11 @@ if (appointmentForm) {
       return;
     }
     
-    // ========== ОТПРАВКА СОБЫТИЯ В ЯНДЕКС МЕТРИКУ (ОТПРАВКА ФОРМЫ) ==========
     if (typeof ym !== 'undefined') {
       ym(109306913, 'reachGoal', 'send_form_zapis');
-      console.log('✅ Цель "send_form_zapis" отправлена в Яндекс Метрику');
+      console.log('✅ Цель "send_form_zapis" отправлена');
     } else {
-      console.log('❌ Яндекс Метрика не загружена');
+      console.log('❌ Метрика не загружена');
     }
     
     let apps = JSON.parse(localStorage.getItem('vet_appointments') || '[]');
