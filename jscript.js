@@ -204,13 +204,21 @@ if (authForm) {
   };
 }
 
-// ==================== ОНЛАЙН ЗАПИСЬ ====================
+// ==================== ОНЛАЙН ЗАПИСЬ С МЕТРИКОЙ ====================
 const showAppBtn = document.getElementById('showAppointmentBtn');
 const formBlock = document.getElementById('appointmentFormBlock');
 
 if (showAppBtn && formBlock) {
   showAppBtn.onclick = () => {
     formBlock.style.display = formBlock.style.display === 'block' ? 'none' : 'block';
+    
+    // ========== ОТПРАВКА СОБЫТИЯ В ЯНДЕКС МЕТРИКУ (КЛИК ПО КНОПКЕ) ==========
+    if (typeof ym !== 'undefined') {
+      ym(109306913, 'reachGoal', 'click_zapis');
+      console.log('✅ Цель "click_zapis" отправлена в Яндекс Метрику');
+    } else {
+      console.log('❌ Яндекс Метрика не загружена');
+    }
   };
 }
 
@@ -231,11 +239,19 @@ if (appointmentForm) {
       return;
     }
     
+    // ========== ОТПРАВКА СОБЫТИЯ В ЯНДЕКС МЕТРИКУ (ОТПРАВКА ФОРМЫ) ==========
+    if (typeof ym !== 'undefined') {
+      ym(109306913, 'reachGoal', 'send_form_zapis');
+      console.log('✅ Цель "send_form_zapis" отправлена в Яндекс Метрику');
+    } else {
+      console.log('❌ Яндекс Метрика не загружена');
+    }
+    
     let apps = JSON.parse(localStorage.getItem('vet_appointments') || '[]');
     apps.push({ fio, phone, social, pet, reason, date, time: new Date() });
     localStorage.setItem('vet_appointments', JSON.stringify(apps));
     
-    alert('✅ Заявка принята! Администратор свяжется с вами в течении 8 часов.');
+    alert('✅ Заявка принята! Администратор свяжется с вами в течение 8 часов.');
     
     formBlock.style.display = 'none';
     appointmentForm.reset();
